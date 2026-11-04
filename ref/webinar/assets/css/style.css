@@ -1,0 +1,874 @@
+/* Шрифти Montserrat і Playfair Display лежать на нашому сервері (assets/fonts, ліцензія OFL): змінні шрифти,
+   один woff2 на діапазон ваг; unicode-range ті самі, що були в Google Fonts. */
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url(../fonts/montserrat-cyrillic.woff2?v=1) format('woff2');
+    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url(../fonts/montserrat-latin.woff2?v=1) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 500 700;
+    font-display: swap;
+    src: url(../fonts/playfair-display-cyrillic.woff2?v=1) format('woff2');
+    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 500 700;
+    font-display: swap;
+    src: url(../fonts/playfair-display-latin.woff2?v=1) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ===== CSS Variables (Design System) ===== */
+:root {
+    --color-primary: #a30000;
+    --color-primary-light: #d94444;
+    --color-primary-dark: #7a0000;
+    --color-accent: #c9a961;
+    --color-accent-light: #e5d4a1;
+    --color-dark: #141010;
+    --color-dark-soft: #1a1514;
+    --color-gray: #6b6b6b;
+    --color-gray-light: #a0a0a0;
+    --color-white: #ffffff;
+
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    --gradient-text: linear-gradient(110deg, #c9a961 0%, #ffebbc 45%, #ffffff 50%, #ffebbc 55%, #c9a961 100%);
+
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-full: 50px;
+
+    --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 40px rgba(163, 0, 0, 0.25);
+}
+
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-white);
+    background: #141010;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.page-wrapper {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* Ambient Glows (Optimized) */
+body::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* Changed from 600px */
+    max-width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(163, 0, 0, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden; /* Prevent blowout */
+}
+
+/* ===== Typography Utilities ===== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-gradient {
+    background: var(--gradient-text);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+}
+
+/* ===== Layout ===== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 30px 0;
+}
+
+.hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .hero__grid {
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 60px;
+    }
+}
+
+/* Content Side */
+.hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px 0;
+}
+
+@media (min-width: 992px) {
+    .hero__content {
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+.hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(163, 0, 0, 0.15);
+    border: 1px solid rgba(163, 0, 0, 0.35);
+    border-radius: var(--radius-full);
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+}
+
+.hero__badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary-light);
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+}
+
+.hero__subtitle {
+    font-size: 1rem;
+    color: var(--color-gray-light);
+    margin-bottom: 8px;
+}
+
+.hero__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+
+.hero__from-zero {
+    font-size: 0.4em;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-white);
+    margin-top: 5px;
+    opacity: 0.9;
+}
+
+.hero__desc {
+    font-size: 1rem;
+    color: var(--color-gray-light);
+    line-height: 1.5;
+    max-width: 480px;
+    margin-bottom: 24px;
+}
+
+/* Date Badge */
+.date-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    padding: 12px 20px;
+    margin-bottom: 24px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.date-badge__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-white);
+}
+
+.date-badge__item svg {
+    color: var(--color-accent);
+}
+
+.date-badge__sep {
+    opacity: 0.5;
+}
+
+/* Час ефіру + підпис пояса під ним */
+.date-badge__time {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    text-align: left;
+}
+
+.date-badge__tz {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-gray-light);
+}
+
+/* Program List */
+.program-list {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 24px;
+    display: grid;
+    gap: 12px;
+}
+
+.program-list li {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+}
+
+.program-list span {
+    color: var(--color-accent);
+    font-weight: bold;
+}
+
+/* Speaker Card (Right Side) */
+.speaker-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: var(--radius-lg);
+    padding: 12px 24px 24px;
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.speaker-card__image {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 20px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.speaker-card__image img {
+    width: 100%;
+    height: auto; /* пропорції дає width/height в HTML – без стрибка розмітки */
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.speaker-card:hover .speaker-card__image img {
+    transform: scale(1.02);
+}
+
+.speaker-card__info {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.speaker-card__title {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+
+.speaker-card__name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.speaker-card__role {
+    font-size: 0.9rem;
+    color: var(--color-gray-light);
+    line-height: 1.4;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.stat-item {
+    background: rgba(255,255,255,0.03);
+    padding: 10px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1px solid transparent;
+    transition: 0.3s;
+    min-width: 0; /* Preventing flex/grid blowout */
+    overflow: hidden;
+}
+
+.stat-item:hover {
+    border-color: rgba(201, 169, 97, 0.3);
+    background: rgba(255,255,255,0.05);
+}
+
+.stat-item__num {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-accent);
+}
+
+.stat-item__label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--color-gray-light);
+    letter-spacing: 0.05em;
+}
+
+/* Countdown Timer.
+   Число й підпис «днів» рахує JS; поки він не спрацював, блок невидимий, але місце тримає
+   (без зашитого «0 днів» і без стрибка розмітки). */
+.countdown,
+.js-countdown-caption {
+    visibility: hidden;
+}
+
+.countdown-ready .countdown,
+.countdown-ready .js-countdown-caption {
+    visibility: visible;
+}
+
+.countdown {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 480px;
+}
+
+.countdown__item {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 5px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+}
+
+.countdown__num {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--color-accent);
+    line-height: 1.2;
+}
+
+.countdown__label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--color-gray-light);
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+}
+
+.hero__actions--centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 480px;
+}
+
+.speaker-quote {
+    text-align: center;
+    margin-top: 24px;
+    line-height: 1.4;
+}
+
+.stat-item--wide {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.stat-item--animated {
+    animation: pulse-border 3s infinite ease-in-out;
+    border: 1px solid rgba(201, 169, 97, 0.2);
+}
+
+@keyframes pulse-border {
+    0% { border-color: rgba(201, 169, 97, 0.2); box-shadow: 0 0 0 rgba(201, 169, 97, 0); }
+    50% { border-color: rgba(201, 169, 97, 0.5); box-shadow: 0 0 10px rgba(201, 169, 97, 0.2); }
+    100% { border-color: rgba(201, 169, 97, 0.2); box-shadow: 0 0 0 rgba(201, 169, 97, 0); }
+}
+
+.stat-item--wide svg {
+    color: var(--color-accent);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn--primary {
+    background: linear-gradient(110deg, #d94444 0%, #a30000 100%);
+    color: white;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(163, 0, 0, 0.3);
+}
+
+.btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(163, 0, 0, 0.4);
+}
+
+.btn-note {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Стан «ефір іде» (між початком і закриттям реєстрації): app.js ставить клас is-live на <html>.
+   Таймер і підпис до нього ховаються, замість них короткий напис; кнопки активні. */
+.live-now {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: rgba(163, 0, 0, 0.15);
+    border: 1px solid rgba(217, 68, 68, 0.45);
+    border-radius: var(--radius-full);
+    padding: 10px 22px;
+    margin-bottom: 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-white);
+}
+
+.live-now__dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+}
+
+.is-live .live-now {
+    display: inline-flex;
+}
+
+.is-live .countdown,
+.is-live .js-countdown-caption {
+    display: none;
+}
+
+/* Стан «ефір минув»: app.js ставить клас is-ended на <html> */
+.next-soon {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    border-radius: var(--radius-md);
+    padding: 14px 28px;
+    margin-bottom: 24px;
+}
+
+.next-soon__title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.next-soon__text {
+    font-size: 0.85rem;
+    color: var(--color-gray-light);
+}
+
+.is-ended .next-soon {
+    display: flex;
+}
+
+.is-ended .date-badge,
+.is-ended .countdown,
+.is-ended .js-countdown-caption,
+.is-ended .btn-note,
+.is-ended .btn__icon,
+.is-ended .sticky-bar {
+    display: none;
+}
+
+/* Кнопка реєстрації після ефіру: видна, але неактивна */
+.js-register:disabled {
+    background: #3a3535;
+    color: #c9c3c3;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Мобільна кнопка під датою (перший екран телефона) */
+.hero__actions--top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 24px;
+}
+
+.hero__actions--top .btn {
+    width: 100%;
+}
+
+/* Sticky Bar (Mobile) */
+.sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transform: translateY(150%);
+    /* поки панель схована, вона не фокусується й не читається скрінрідером */
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.4s;
+    background: var(--color-dark);
+    padding: 10px 15px calc(15px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    box-sizing: border-box;
+    margin: 0; /* Clear any accidental margins */
+}
+
+.sticky-bar.is-visible {
+    transform: translateY(0);
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+/* Липка панель – лише для телефона/планшета (так само, як .hide-desktop) */
+@media (min-width: 992px) {
+    .sticky-bar { display: none; }
+}
+
+.btn--sticky {
+    width: 100%;
+    box-sizing: border-box; /* Force width within parent */
+    background: var(--gradient-primary);
+    color: white;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 15px rgba(163, 0, 0, 0.3);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.btn__sub {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(4px);
+}
+
+.modal__content {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 20px;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.modal.is-open .modal__content {
+    transform: translateY(0);
+}
+
+.modal__close {
+    position: absolute;
+    /* усередині картки (а не над нею): на низьких екранах і в «Відкрити Telegram» хрестик не виїжджає за верх вікна */
+    top: 6px;
+    right: 6px;
+    z-index: 2;
+    /* зона натискання не менше 44x44 px */
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* Form */
+.form {
+    background: #1a1514;
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.form__header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.form__logo {
+    width: 50px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.form__title {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--color-accent);
+    margin-bottom: 4px;
+}
+
+.form__desc {
+    font-size: 0.9rem;
+    /* було #6b6b6b (3,4:1 на #1a1514), тепер #a0a0a0 (понад 6:1) */
+    color: var(--color-gray-light);
+}
+
+.form__group {
+    margin-bottom: 16px;
+}
+
+.form__input {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    color: white;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form__input:focus {
+    border-color: var(--color-accent);
+    background: rgba(255,255,255,0.08);
+}
+
+.form__error {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+}
+
+.btn--submit {
+    width: 100%;
+    background: linear-gradient(135deg, #a30000, #d94444);
+    color: white;
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: var(--radius-full);
+}
+
+.form__footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-gray-light);
+    margin-top: 16px;
+}
+
+/* Екран після форми: «Відкрити Telegram» */
+.form[hidden] {
+    display: none;
+}
+
+.form-done__help {
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-gray-light);
+    margin-top: 20px;
+}
+
+.form-done__help p {
+    margin-bottom: 8px;
+}
+
+.form-done__link {
+    display: block;
+    color: var(--color-accent);
+    word-break: break-all;
+    margin-bottom: 10px;
+}
+
+.form-done__copy {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: var(--radius-full);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    cursor: pointer;
+}
+
+/* Animation Keyframes */
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes pulse-dot {
+    0% { box-shadow: 0 0 0 0 rgba(217, 68, 68, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(217, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(217, 68, 68, 0); }
+}
+
+/* Utility visibility classes */
+@media (max-width: 991px) {
+    .hide-mobile { display: none !important; }
+    .mt-4 { margin-top: 24px; }
+}
+@media (min-width: 992px) {
+    .hide-desktop { display: none !important; }
+}
+
+/* Intl Tel Input Overrides.
+   CSS бібліотеки підвантажується ПІЗНІШЕ за цей файл і при однаковій специфічності перебиває його,
+   тому правила для списку країн мають префікс `body` (специфічність вища). */
+.iti { width: 100%; }
+/* На телефоні список країн відкривається окремим контейнером у <body> (класи `iti iti--container`).
+   - z-index бібліотеки 1060 нижчий за модалку (9999): список був ПІД нею, країну не можна було вибрати;
+   - правило `.iti { width: 100% }` вище розтягувало контейнер на всю ширину при left: 30px, і список
+     вилазив за правий край екрана. */
+body .iti--container { z-index: 10000; width: auto; }
+/* темне оформлення списку: без префікса бібліотека залишала білий фон під білим текстом */
+body .iti__country-list { background-color: #1a1514; border: 1px solid #333; color: white; }
+body .iti__divider { border-bottom-color: #333; }
+body .iti__country.iti__highlight { background-color: rgba(255, 255, 255, 0.1); }
+.iti__dial-code { color: #aaa; }
+@media (max-width: 768px) {
+    .program-list {
+        margin-bottom: 10px !important;
+    }
+    .hero__desc {
+        margin-bottom: 20px !important;
+    }
+}

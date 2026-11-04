@@ -1,0 +1,101 @@
+# ============================================================
+#  Вебінар — лендинг + форма реєстрації (server-front / server2).
+#
+#  TLS і вхід на 443 тримає Traefik (окремий стек, edge-проксі).
+#  Цей застосунок більше НЕ термінує TLS і НЕ відкриває порти назовні:
+#  certbot прибрано, nginx слухає чистий :80, а Traefik чіпляється до
+#  контейнера web через спільну мережу traefik-public за мітками нижче.
+#
+#  3 контейнери:
+#    db  — postgres:16-alpine, лише внутрішня мережа. На першому старті
+#          (порожній том) завантажує дамп лідів із ./_initdb.
+#    app — Node/Express API (build ./api), слухає :4000 у internal.
+#    web — nginx, віддає статику + проксує /api/ → app:4000. Єдиний
+#          контейнер у traefik-public.
+# ============================================================
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: webinar_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-webinar_leads}
+      POSTGRES_USER: ${POSTGRES_USER:-webinar_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_strong_password}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # Дамп лідів. Виконується postgres-ом ЛИШЕ при ініціалізації порожнього
+      # тому (перший старт). Сам файл кладе Ansible із secrets/, у git не йде.
+      - ./_initdb:/docker-entrypoint-initdb.d:ro
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-webinar_user} -d ${POSTGRES_DB:-webinar_leads}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: webinar_api
+    restart: unless-stopped
+    env_file:
+      - ./api/.env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-webinar_user}:${POSTGRES_PASSWORD:-change_me_strong_password}@db:5432/${POSTGRES_DB:-webinar_leads}
+      PORT: 4000
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  web:
+    image: nginx:1.27-alpine
+    container_name: webinar_web
+    restart: unless-stopped
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./assets:/usr/share/nginx/html/assets:ro
+      - ./CNAME:/usr/share/nginx/html/CNAME:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - internal
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      # --- лендинг: webinar.school-design.space ---
+      - "traefik.http.routers.webinar.rule=Host(`webinar.school-design.space`)"
+      - "traefik.http.routers.webinar.entrypoints=websecure"
+      - "traefik.http.routers.webinar.tls=true"
+      - "traefik.http.routers.webinar.service=webinar"
+      # --- API: api.school-design.space (той самий nginx, інший server_name) ---
+      - "traefik.http.routers.webinar-api.rule=Host(`api.school-design.space`)"
+      - "traefik.http.routers.webinar-api.entrypoints=websecure"
+      - "traefik.http.routers.webinar-api.tls=true"
+      - "traefik.http.routers.webinar-api.service=webinar"
+      # --- бекенд сервісу: nginx слухає :80 ---
+      - "traefik.http.services.webinar.loadbalancer.server.port=80"
+
+networks:
+  # внутрішня мережа db ↔ app ↔ web (без виходу назовні)
+  internal:
+    driver: bridge
+  # спільна мережа з Traefik (створюється playbook-ом 17, external)
+  traefik-public:
+    external: true
+
+volumes:
+  db_data:
+    driver: local

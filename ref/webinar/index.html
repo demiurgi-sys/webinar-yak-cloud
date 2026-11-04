@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Безкоштовний онлайн-вебінар Олени Гриневич. Покроковий план старту в дизайні інтер’єра без досвіду.">
+    <title>Вебінар: Як стати дизайнером інтер'єра з нуля | Олена Гриневич</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webinar.school-design.space/">
+    <meta property="og:site_name" content="GRINEVICH.DESIGN.SCHOOL">
+    <meta property="og:locale" content="uk_UA">
+    <meta property="og:title" content="Вебінар: Як стати дизайнером інтер'єра з нуля">
+    <meta property="og:description" content="Безкоштовний вебінар Олени Гриневич: покроковий план старту в дизайні інтер’єру без досвіду.">
+    <meta property="og:image" content="https://webinar.school-design.space/assets/images/og-cover.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="670">
+    <meta property="og:image:alt" content="Вебінар з Оленою Гриневич: як стати дизайнером інтер’єру">
+    <meta name="twitter:card" content="summary_large_image">
+
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css?v=1.2.3">
+    <!-- Поле телефону (intl-tel-input: CSS, JS, utils, прапорці) підвантажується з cdnjs не одразу, а при першому
+         відкритті форми та «прогрівом» після load – див. ensurePhoneInput() у app.js. Тут лише ранній конект. -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Analytics (Facebook Pixel) -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;
+        /* fbevents.js вставляємо через 0,5 с після DOMContentLoaded, а не одразу, щоб не конкурував
+           із першим екраном. Заглушка fbq і черга працюють уже зараз: усі init/track стають у чергу
+           і йдуть, щойно скрипт завантажиться. f.loadFbPixel() – негайне завантаження (app.js
+           викликає його, якщо форму відправлено раніше). */
+        f.loadFbPixel=function(){if(t.parentNode)return;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)};
+        var go=function(){setTimeout(f.loadFbPixel,500)};
+        b.readyState==='loading'?b.addEventListener('DOMContentLoaded',go):go()}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1206316576873280');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1206316576873280&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+
+    <!-- Main Content Wrapper -->
+    <div class="page-wrapper">
+        
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="container hero__grid">
+                
+                <!-- Content Side -->
+                <div class="hero__content">
+                    <div class="hero__badge">
+                        <span class="hero__badge-dot"></span>
+                        Безкоштовний вебінар
+                    </div>
+
+                    
+                    <h1 class="hero__title">
+                        Як стати дизайнером<br>
+                        <span class="text-gradient">інтер'єра</span>
+                    </h1>
+
+                    <p class="hero__desc">
+                        Нуль досвіду, інша професія, будь-який вік — старт однаковий для всіх
+                    </p>
+
+                    <!-- Date Block -->
+                    <div class="date-badge">
+                        <div class="date-badge__item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <span class="dynamic-date">5 листопада</span>
+                        </div>
+                        <span class="date-badge__sep">•</span>
+                        <div class="date-badge__item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span class="date-badge__time">
+                                <span class="dynamic-time">19:30</span>
+                                <span class="date-badge__tz">за київським часом</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Ефір іде, реєстрація ще відкрита (app.js ставить клас is-live на <html>): замість таймера -->
+                    <div class="live-now">
+                        <span class="live-now__dot"></span>
+                        Ефір уже йде – приєднуйся
+                    </div>
+
+                    <!-- Після закриття реєстрації (app.js ставить клас is-ended на <html>): замість дати й таймера -->
+                    <div class="next-soon">
+                        <div class="next-soon__title">Наступний ефір скоро</div>
+                        <p class="next-soon__text">Реєстрацію на цей ефір закрито</p>
+                    </div>
+
+                    <!-- CTA Mobile: під датою, щоб кнопка була на першому екрані телефона -->
+                    <div class="hero__actions hero__actions--top hide-desktop">
+                        <button type="button" class="btn btn--primary js-register js-cta-top" onclick="openLeadModal()">
+                            <span class="js-register-label">Зареєструватися</span> <span class="btn__icon">→</span>
+                        </button>
+                        <p class="btn-note">Telegram-бот без спаму — без дзвінків</p>
+                    </div>
+
+                    <!-- Program List -->
+                    <ul class="program-list">
+                        <li><span>✓</span> Що таке дизайн інтер’єру. Чергова професія чи спосіб життя?</li>
+                        <li><span>✓</span> Хто такий дизайнер інтер’єру насправді.</li>
+                        <li><span>✓</span> Права та обов’язки дизайнера інтер’єру — чесно, без прикрас.</li>
+                        <li><span>✓</span> Які знання і навички реально потрібні дизайнеру інтер’єру.</li>
+                        <li><span>✓</span> Реальний шлях від нуля до перших клієнтів.</li>
+                        <li><span>✓</span> Де гроші в дизайні інтер’єру та скільки реально можна заробляти.</li>
+                        <li><span>✓</span> Реальні історії звичайних людей, які зайшли в професію з нуля.</li>
+                        <li><span>✓</span> Відповіді на всі ваші питання в прямому ефірі.</li>
+                    </ul>
+
+                    <!-- CTA Desktop -->
+                    <div class="hero__actions hero__actions--centered hide-mobile">
+                        <p class="js-countdown-caption" style="margin-bottom: 15px; font-weight: 500; color: var(--color-accent); font-size: 0.95rem;">До відкриття дверей у світ дизайну інтер’єру залишилося:</p>
+                        <!-- Countdown Timer: число рахує JS, до його запуску блок невидимий (без зашитого «0 днів») -->
+                        <div class="countdown">
+                            <div class="countdown__item js-days-item">
+                                <span class="countdown__num js-days">&nbsp;</span>
+                                <span class="countdown__label js-days-label">&nbsp;</span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn--primary js-register" onclick="openLeadModal()">
+                            <span class="js-register-label">Зареєструватися</span> <span class="btn__icon">→</span>
+                        </button>
+                        <p class="btn-note">Telegram-бот без спаму — без дзвінків</p>
+                    </div>
+                </div>
+
+                    <!-- Visual Side (Speaker) -->
+                <div class="hero__visual">
+                    <div class="speaker-card">
+                        <div class="speaker-card__info">
+                            <div class="speaker-card__name">Олена Гриневич</div>
+                            <p class="speaker-quote" style="margin-top: 5px; margin-bottom: 0; font-style: italic; opacity: 0.9; color: var(--color-accent);">«Дизайнерами не народжуються, дизайнерами стають»</p>
+                        </div>
+
+                        <div class="speaker-card__image">
+                            <!-- Фото нижче першого екрана телефона: без fetchpriority/eager, ліниве завантаження.
+                                 sizes: на телефоні картка = ширина екрана мінус 2×20 px поля мінус 2×24 px відступ картки. -->
+                            <img src="assets/images/olena16x9-1080.webp"
+                                 srcset="assets/images/olena16x9-360.webp 360w, assets/images/olena16x9-720.webp 720w, assets/images/olena16x9-1080.webp 1080w"
+                                 sizes="(max-width: 540px) calc(100vw - 88px), 452px"
+                                 width="1080" height="602"
+                                 alt="Олена Гриневич" loading="lazy" decoding="async">
+                        </div>
+                        
+                        <div class="speaker-card__info" style="margin-top: 20px;">
+                            <p class="speaker-card__role">Засновниця та викладачка<br><b>GRINEVICH.DESIGN.SCHOOL</b><br>Засновниця та керівниця<br>Асоціації дизайнерів інтер'єру</p>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="stats-grid">
+                            <div class="stat-item stat-item--wide stat-item--animated">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                <span class="stat-item__label">Практикуюча дизайнерка</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item__num">17</span>
+                                <span class="stat-item__label">років практики</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item__num">11</span>
+                                <span class="stat-item__label">років викладання</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item__num">57</span>
+                                <span class="stat-item__label">груп</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item__num">5</span>
+                                <span class="stat-item__label">років школі</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item__num">737</span>
+                                <span class="stat-item__label">випускників</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-item__num">71%</span>
+                                <span class="stat-item__label">в професії</span>
+                            </div>
+                            <div class="stat-item stat-item--wide stat-item--animated">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12s-4-8-10-8-10 8-10 8 4 8 10 8 10-8 10-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                <span class="stat-item__label">Спікерка конференцій</span>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile CTA (кінець сторінки) -->
+                    <div class="hero__actions hide-desktop text-center" style="margin-top: 5px;">
+                         <p class="js-countdown-caption" style="margin-bottom: 15px; font-weight: 500; color: var(--color-accent); font-size: 0.9rem;">До відкриття дверей у світ дизайну інтер’єру залишилося:</p>
+                         <!-- Countdown Timer (Mobile) -->
+                         <div class="countdown" style="margin: 0 auto 20px;">
+                            <div class="countdown__item js-days-item">
+                                <span class="countdown__num js-days">&nbsp;</span>
+                                <span class="countdown__label js-days-label">&nbsp;</span>
+                            </div>
+                        </div>
+                         <button type="button" class="btn btn--primary js-register js-cta-bottom" style="margin-bottom: 12px;" onclick="openLeadModal()">
+                            <span class="js-register-label">Зареєструватися</span> <span class="btn__icon">→</span>
+                        </button>
+                        <p class="btn-note" style="margin-top: 0;">Telegram-бот без спаму — без дзвінків</p>
+                    </div>
+            </div>
+        </header>
+
+    </div>
+
+    <!-- Sticky Mobile CTA: з'являється, коли жодна кнопка реєстрації не на екрані; ховається, поки відкрита форма -->
+    <div id="stickyBar" class="sticky-bar">
+        <button type="button" class="btn btn--sticky js-register" onclick="openLeadModal()">
+            <span class="js-register-label">Зареєструватися →</span>
+            <span class="btn__sub">Безкоштовно · Telegram-бот без спаму</span>
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div id="leadModal" class="modal" aria-hidden="true">
+        <div class="modal__overlay" onclick="closeLeadModal()"></div>
+        <div class="modal__content">
+            <button type="button" class="modal__close" aria-label="Закрити" onclick="closeLeadModal()">&times;</button>
+            
+            <form id="leadForm" class="form">
+                <div class="form__header">
+                    <img src="assets/images/logo.webp" alt="Logo" class="form__logo">
+                    <h3 class="form__title">Зареєструватися</h3>
+                    <p class="form__desc">Введіть дані для доступу до вебінару</p>
+                </div>
+
+                <div class="form__group">
+                    <input type="tel" id="phone" name="phone" class="form__input" placeholder="Номер телефону" autocomplete="tel" inputmode="tel" required>
+                    <div class="form__error" id="error-phone">Введіть коректний номер</div>
+                </div>
+
+                <div class="form__group">
+                    <input type="email" name="email" class="form__input" placeholder="Ваш Email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required>
+                    <div class="form__error" id="error-email">Введіть коректний email</div>
+                </div>
+
+                <button type="submit" class="btn btn--submit">
+                    <span>📲</span> Продовжити в Telegram
+                </button>
+
+                <div class="form__footer">
+                    <p>Ми проти спаму. Ваші дані в безпеці.</p>
+                    <p style="margin-top: 10px; font-size: 0.75rem; line-height: 1.4; opacity: 0.8;">
+                        Натискаючи кнопку, ви погоджуєтесь з 
+                        <a href="https://course.school-design.space/privacy.html" target="_blank" style="color: #a0a0a0; text-decoration: underline;">політикою конфіденційності</a>
+                    </p>
+                    <div class="form__global-error" id="error-global"></div>
+                </div>
+            </form>
+
+            <!-- Після форми: перехід у Telegram натисканням людини.
+                 Вбудовані браузери Facebook/Instagram на Android автоперехід часто не пускають. -->
+            <div id="leadDone" class="form form-done" hidden>
+                <div class="form__header">
+                    <img src="assets/images/logo.webp" alt="Logo" class="form__logo">
+                    <h3 class="form__title">Залишився один крок</h3>
+                    <p class="form__desc">Натисніть кнопку – відкриється наш Telegram-бот. Там натисніть «Старт»: туди прийде посилання на ефір.</p>
+                </div>
+
+                <a id="tgOpen" class="btn btn--submit" href="#" rel="noopener">
+                    <span>📲</span> Відкрити Telegram
+                </a>
+
+                <div class="form-done__help">
+                    <p>Не відкрилось? Натисніть <b>⋮</b> або <b>···</b> угорі екрана → «Відкрити в браузері» і натисніть кнопку ще раз.</p>
+                    <p>Або відкрийте посилання в Telegram самі:</p>
+                    <a id="tgLink" class="form-done__link" href="#" rel="noopener"></a>
+                    <button type="button" id="tgCopy" class="form-done__copy">Скопіювати посилання</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js?v=1.2.8"></script>
+</body>
+</html>

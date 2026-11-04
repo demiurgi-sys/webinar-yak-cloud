@@ -1,0 +1,152 @@
+/* ============================================
+   Legal Pages Styles - Grinevich School
+   ============================================ */
+:root {
+    --bg-color: #0b0b0b;
+    --text-color: #ffffff;
+    --accent-color: #d4af37;
+    /* Golden accent */
+    --secondary-text: #a0a0a0;
+    --font-main: 'Montserrat', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.legal-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}
+
+/* Header & Navigation */
+.legal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.back-btn:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+.back-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover svg {
+    transform: translateX(-5px);
+}
+
+/* Content Styling */
+.legal-content {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 60px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.legal-content h1 {
+    font-family: var(--font-heading);
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.legal-content h2 {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+.legal-content h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.legal-content p {
+    margin-bottom: 20px;
+    color: var(--secondary-text);
+    font-size: 16px;
+}
+
+.legal-content ul,
+.legal-content ol {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    color: var(--secondary-text);
+}
+
+.legal-content li {
+    margin-bottom: 10px;
+}
+
+.lang-section {
+    margin-top: 60px;
+    padding-top: 60px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lang-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    background: var(--accent-color);
+    color: #000;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .legal-container {
+        padding: 40px 15px;
+    }
+
+    .legal-content {
+        padding: 30px 20px;
+    }
+
+    .legal-content h1 {
+        font-size: 32px;
+    }
+
+    .legal-content h2 {
+        font-size: 24px;
+    }
+}

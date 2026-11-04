@@ -1,0 +1,26 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Env / секрети
+.env
+api/.env
+*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python (скрипти)
+__pycache__/
+*.pyc
+
+# Деплой-артефакти (TLS тепер на Traefik; дамп кладе Ansible)
+certbot/
+_initdb/
+*.bak

@@ -1,0 +1,67 @@
+services:
+  web:
+    image: nginx:1.27-alpine
+    container_name: course_web
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+      - "8444:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./:/usr/share/nginx/html:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    networks:
+      - course_internal
+      - course_external
+      - webinar_default
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    container_name: course_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=course
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - FB_PIXEL_ID=${FB_PIXEL_ID}
+      - FB_ACCESS_TOKEN=${FB_ACCESS_TOKEN}
+    networks:
+      - course_internal
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    container_name: course_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=course
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - course_db_data:/var/lib/postgresql/data
+    networks:
+      - course_internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d course"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  course_internal:
+  course_external:
+  webinar_default:
+    external: true
+
+volumes:
+  course_db_data:

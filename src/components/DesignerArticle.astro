@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import site from '../content/site.json';
+interface Props { entry: CollectionEntry<'designers'>; index: number; total: number; headingLevel?: 'h1' | 'h2' }
+const { entry, index, total, headingLevel = 'h2' } = Astro.props;
+const d = entry.data;
+const c = site.card;
+const two = (n: number) => String(n).padStart(2, '0');
+const H = headingLevel;
+---
+<article class="art" data-article={entry.id} aria-labelledby={`n-${entry.id}`}>
+  <div class="hero">
+    <span class="cnt">{two(index + 1)} / {two(total)}</span>
+    <Image src={d.photo} alt={d.name} widths={[480, 720]} sizes="(min-width:760px) 760px, 100vw" loading="lazy" />
+  </div>
+  <div class="pad">
+    <H class="name" id={`n-${entry.id}`}>{d.name}</H>
+    <p class="origin">{d.country}</p>
+    {d.pronounce && <p class="say">{d.pronounce}</p>}
+    {d.quote && (
+      <blockquote class="quote"><p>{d.quote}</p>{d.quoteBy && <footer class="who">{d.quoteBy}</footer>}</blockquote>
+    )}
+    <div class="cols">
+      <div class="sec"><h3>{c.lead}</h3><p>{d.lead}</p></div>
+      <div class="sec"><h3>{c.known[d.gender]}</h3><p>{d.known}</p></div>
+    </div>
+    <div class="fish"><h3>{c.trick}</h3><p>{d.trick}</p></div>
+    <div class="sec"><h3>{c.story}</h3><p>{d.story}</p></div>
+    <div class="sec"><h3>{c.signature}</h3><ul>{d.signature.map((s) => <li>{s}</li>)}</ul></div>
+    {d.extra?.map((e) => <div class="sec"><h3>{e.title}</h3><p>{e.text}</p></div>)}
+    <div class="icon"><h3>{c.icon}</h3><p>{d.icon}</p></div>
+    <div class="sec"><h3>{c.works}</h3><p class="works">{d.works}</p></div>
+    <div class="why"><h3>{c.why}</h3><p>{d.why}</p></div>
+  </div>
+</article>
+
+<style>
+  .hero{position:relative;height:min(56vh,460px);background:var(--ink);overflow:hidden}
+  .hero :global(img){width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+  .cnt{position:absolute;left:0;top:0;z-index:2;background:var(--red);color:#FDFDFD;font-size:11px;font-weight:700;letter-spacing:.1em;padding:5px 10px}
+  .pad{padding:24px 20px 32px}
+  @media(min-width:760px){.pad{padding:32px 44px 44px}.hero{height:420px}}
+  .name{font-family:var(--accent);font-weight:400;font-size:clamp(28px,7vw,40px);line-height:1.12;text-wrap:balance;margin-bottom:4px}
+  .origin{font-size:13.5px;color:var(--muted);letter-spacing:.02em;margin-bottom:16px}
+  .say{font-size:13.5px;color:var(--muted);border-left:2px solid var(--line);padding:2px 0 2px 11px;margin:0 0 20px}
+  .quote{position:relative;margin:4px 0 26px;padding:6px 0 4px 18px;border-left:3px solid var(--red)}
+  .quote p{font-family:var(--accent);font-size:clamp(18px,4.8vw,22px);line-height:1.45}
+  .who{display:block;font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:.06em;text-transform:uppercase}
+  h3{font-size:11.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:7px}
+  .sec{margin-bottom:20px}
+  .sec p,.sec ul{max-width:62ch}
+  .sec ul{list-style:none}
+  .sec li{position:relative;padding-left:17px;margin-bottom:6px}
+  .sec li::before{content:'';position:absolute;left:0;top:12px;width:7px;height:1.5px;background:var(--red)}
+  .cols{display:grid;gap:0}
+  @media(min-width:760px){.cols{grid-template-columns:1fr 1fr;column-gap:32px}}
+  .fish{background:var(--hair);border-left:3px solid var(--ink);padding:15px 17px;margin:2px 0 22px}
+  .fish h3{color:var(--ink)}
+  .icon{border:1px solid var(--line);padding:16px 17px;margin:4px 0 22px}
+  .icon h3{font-family:var(--accent);font-weight:400;font-size:12.5px;letter-spacing:.2em}
+  .works{font-size:15.5px;color:var(--muted)}
+  .why{border-top:1px solid var(--line);padding-top:18px;margin-top:26px}
+  .why h3{color:var(--muted)}
+  .why p{font-family:var(--accent);font-size:clamp(18px,4.6vw,20px);line-height:1.5;max-width:56ch}
+  @media print{.hero{display:none}.pad{padding:0}}
+</style>

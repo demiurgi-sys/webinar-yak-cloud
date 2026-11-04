@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import site from '../content/site.json';
+interface Props { entry: CollectionEntry<'designers'>; index: number }
+const { entry, index } = Astro.props;
+const d = entry.data;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const num = String(index + 1).padStart(2, '0');
+---
+<a class="card" href={`${base}/d/${entry.id}/`} data-id={entry.id}
+   data-discipline={d.toggles.discipline.join(' ')} data-region={d.toggles.region} data-era={d.toggles.era}
+   aria-label={`${d.name} — ${site.card.open}`}>
+  <span class="shot">
+    <span class="num">{num}</span>
+    <Image src={d.photo} alt={d.name} widths={[240, 360, 540, 720]}
+      sizes="(min-width:1120px) 260px, (min-width:900px) 23vw, (min-width:620px) 31vw, 46vw"
+      loading={index < 4 ? 'eager' : 'lazy'} />
+  </span>
+  <span class="nm">{d.name}</span>
+  <span class="ln">{d.hook}</span>
+</a>
+
+<style>
+  .card{display:block;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .card[hidden]{display:none}
+  .shot{display:block;position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--ink);border-radius:2px}
+  .shot :global(img){width:100%;height:100%;object-fit:cover;object-position:50% 18%;transition:transform .5s var(--ease)}
+  .num{position:absolute;left:0;top:0;z-index:2;background:var(--red);color:#FDFDFD;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 8px}
+  .nm{display:block;font-family:var(--accent);font-size:clamp(17px,4.6vw,20px);line-height:1.2;margin:12px 0 4px;text-wrap:balance}
+  .ln{display:block;font-size:13.5px;line-height:1.42;color:var(--muted);text-wrap:pretty}
+  .card:hover .shot :global(img),.card:focus-visible .shot :global(img){transform:scale(1.045)}
+  .card:hover .nm{color:var(--red)}
+  .card:focus-visible{outline:2px solid var(--red);outline-offset:5px}
+</style>

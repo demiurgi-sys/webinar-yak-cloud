@@ -1,0 +1,46 @@
+{
+  "title": "Дизайнери, якими я надихаюся",
+  "description": "Роздатка до уроку 03 курсу Mood&Space: п’ятнадцять дизайнерів, яких згадує Олена Гриневич.",
+  "kicker": "Mood&Space · урок 03",
+  "footer": "Grinevich School Design · Mood&Space, урок 03",
+  "cta": { "label": "", "href": "" },
+  "deadline": "",
+  "filters": {
+    "title": "Фільтри",
+    "reset": "Показати всіх",
+    "shown": "Показано",
+    "of": "з",
+    "empty": "Нікого не знайшлося. Вимкніть один із перемикачів.",
+    "groups": [
+      { "key": "discipline", "label": "Напрям", "options": [
+        { "value": "architecture", "label": "Архітектура" },
+        { "value": "interior", "label": "Інтер’єр" },
+        { "value": "object", "label": "Предмет і меблі" },
+        { "value": "decor", "label": "Декор і стиль" }
+      ]},
+      { "key": "region", "label": "Звідки", "options": [
+        { "value": "ua", "label": "Україна" },
+        { "value": "world", "label": "Світ" }
+      ]},
+      { "key": "era", "label": "Час", "options": [
+        { "value": "classic", "label": "Класики" },
+        { "value": "now", "label": "Сучасники" }
+      ]}
+    ]
+  },
+  "card": {
+    "open": "відкрити",
+    "close": "Закрити",
+    "prev": "Попередній",
+    "next": "Наступний",
+    "back": "← Усі дизайнери",
+    "lead": "Хто це",
+    "known": { "m": "Чим відомий", "f": "Чим відома", "pl": "Чим відомі" },
+    "trick": "Фішка",
+    "story": "Історія",
+    "signature": "Фірмовий почерк",
+    "icon": "Ікона",
+    "works": "Знакові роботи",
+    "why": "Навіщо дивитись тобі"
+  }
+}

@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import DesignerArticle from '../../components/DesignerArticle.astro';
+import site from '../../content/site.json';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('designers')).sort((a, b) => a.data.order - b.data.order);
+  return all.map((entry, index) => ({
+    params: { id: entry.id },
+    props: { entry, index, total: all.length, prev: all[index - 1], next: all[index + 1] },
+  }));
+}
+const { entry, index, total, prev, next } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const c = site.card;
+---
+<Base title={`${entry.data.name} · ${site.title}`} description={entry.data.hook}>
+  <div class="page">
+    <nav class="crumbs"><a href={`${base}/`}>{c.back}</a></nav>
+    <DesignerArticle entry={entry} index={index} total={total} headingLevel="h1" />
+    <nav class="pager">
+      {prev ? <a class="pg" href={`${base}/d/${prev.id}/`}>‹ {prev.data.name}</a> : <span class="pg off"></span>}
+      {next ? <a class="pg" href={`${base}/d/${next.id}/`}>{next.data.name} ›</a> : <span class="pg off"></span>}
+    </nav>
+    <footer class="foot">{site.footer}</footer>
+  </div>
+</Base>
+
+<style>
+  .page{max-width:760px;margin:0 auto}
+  .crumbs{padding:14px 20px}
+  .crumbs a{font-size:14px;color:var(--red);text-decoration:none}
+  .crumbs a:hover{text-decoration:underline}
+  .pager{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--line)}
+  .pg{flex:1;min-width:0;border:1px solid var(--line);padding:12px 10px;font-size:14px;text-decoration:none;text-align:center;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pg:hover{border-color:var(--red);color:var(--red)}
+  .pg.off{border-color:transparent}
+  .foot{padding:30px 20px 50px;font-size:13px;color:var(--muted)}
+  @media print{.crumbs,.pager{display:none}}
+</style>

@@ -1,0 +1,213 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Filters from '../components/Filters.astro';
+import DesignerCard from '../components/DesignerCard.astro';
+import DesignerArticle from '../components/DesignerArticle.astro';
+import site from '../content/site.json';
+
+const designers = (await getCollection('designers')).sort((a, b) => a.data.order - b.data.order);
+const outro = await getEntry('pages', 'outro');
+const { Content: Outro } = await render(outro!);
+const total = designers.length;
+const c = site.card;
+---
+<Base>
+  <div class="wrap">
+    <header class="top">
+      <p class="kicker">{site.kicker}</p>
+      <h1>{site.title}</h1>
+      <div class="rule"></div>
+    </header>
+
+    <Filters total={total} />
+
+    <main>
+      <div class="grid" id="grid">
+        {designers.map((e, i) => <DesignerCard entry={e} index={i} />)}
+      </div>
+      <p class="empty" id="empty" hidden>{site.filters.empty}</p>
+    </main>
+
+    <section class="outro">
+      <h2>{outro!.data.title}</h2>
+      <Outro />
+    </section>
+
+    <footer>{site.footer}</footer>
+  </div>
+
+  <dialog class="sheet" id="sheet" aria-label={site.title}>
+    <div class="sh-scroll" id="sheetScroll">
+      <div class="x-wrap"><button type="button" class="x" data-close aria-label={c.close}>×</button></div>
+      <div id="sheetBody"></div>
+    </div>
+    <nav class="pager">
+      <button type="button" class="pg" data-prev><span aria-hidden="true">‹</span> <span class="pg-t"></span></button>
+      <span class="tally" id="tally"></span>
+      <button type="button" class="pg" data-next><span class="pg-t"></span> <span aria-hidden="true">›</span></button>
+    </nav>
+  </dialog>
+
+  <div class="pool" id="pool">
+    {designers.map((e, i) => <DesignerArticle entry={e} index={i} total={total} />)}
+  </div>
+</Base>
+
+<style>
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px;align-items:start}
+  @media(min-width:620px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 18px}}
+  @media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:36px 22px}}
+  .empty{padding:40px 0;color:var(--muted);text-align:center}
+
+  .outro{margin:64px 0 0;padding:36px 0 0;border-top:1px solid var(--line)}
+  .outro h2{font-family:var(--display);font-weight:400;font-size:clamp(24px,5.6vw,36px);line-height:1.18;max-width:20ch;margin-bottom:20px}
+  .outro :global(p){max-width:62ch;margin-bottom:15px}
+  .outro :global(blockquote){margin-top:26px}
+  .outro :global(blockquote p){font-family:var(--accent);font-size:clamp(19px,4.8vw,22px);line-height:1.45;color:var(--red);max-width:44ch}
+
+  .pool{display:none}
+
+  .sheet{border:none;padding:0;margin:0;background:var(--bg);color:var(--ink);
+    width:100%;max-width:100%;height:100%;max-height:100%;display:none;flex-direction:column;overflow:hidden}
+  .sheet[open]{display:flex;animation:up .28s var(--ease)}
+  .sheet::backdrop{background:rgba(34,34,34,.74);animation:fade .22s}
+  @keyframes up{from{transform:translateY(18px);opacity:0}}
+  @keyframes fade{from{opacity:0}}
+  @media(min-width:760px){
+    .sheet{width:760px;height:auto;max-height:calc(100dvh - 64px);margin:auto;border-radius:3px;box-shadow:0 24px 70px rgba(0,0,0,.34)}
+  }
+  .sh-scroll{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .x-wrap{position:sticky;top:0;height:0;z-index:6}
+  .x{position:absolute;right:12px;top:12px;width:42px;height:42px;border:none;border-radius:50%;
+    background:rgba(34,34,34,.62);color:#FDFDFD;backdrop-filter:blur(4px);font-size:22px;line-height:1;cursor:pointer}
+  .x:hover{background:var(--red)}
+  .pager{flex:0 0 auto;display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:var(--bg)}
+  .pg{flex:1;min-width:0;background:none;border:1px solid var(--line);color:var(--ink);font:inherit;font-size:14px;padding:11px 8px;cursor:pointer;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pg:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+  .pg:disabled{opacity:.3;cursor:default}
+  .tally{flex:0 0 auto;font-size:12.5px;color:var(--muted);letter-spacing:.08em}
+
+  @media print{
+    :global(.filters),.grid,.empty,.sheet,:global(.top .rule){display:none!important}
+    .pool{display:block}
+    .pool :global(.art){break-inside:avoid;border-top:1px solid #999;padding-top:14px;margin-top:14px}
+    body{font-size:11pt}
+  }
+</style>
+
+<script>
+  const grid = document.getElementById('grid')!;
+  const cards = Array.from(grid.querySelectorAll<HTMLAnchorElement>('.card'));
+  const toggles = Array.from(document.querySelectorAll<HTMLButtonElement>('.tg'));
+  const shownEl = document.querySelector('[data-shown]')!;
+  const resetBtn = document.querySelector<HTMLButtonElement>('[data-reset]')!;
+  const empty = document.getElementById('empty')!;
+
+  // ── перемикачі: всередині групи — АБО, між групами — І
+  function applyFilters() {
+    const active: Record<string, string[]> = {};
+    toggles.forEach((t) => {
+      if (t.getAttribute('aria-pressed') === 'true') (active[t.dataset.group!] ||= []).push(t.dataset.value!);
+    });
+    let n = 0;
+    cards.forEach((c) => {
+      const ok = Object.entries(active).every(([g, vals]) => {
+        const own = (c.dataset[g] || '').split(' ');
+        return vals.some((v) => own.includes(v));
+      });
+      c.hidden = !ok;
+      if (ok) n++;
+    });
+    shownEl.textContent = String(n);
+    empty.hidden = n > 0;
+    resetBtn.hidden = Object.keys(active).length === 0;
+    try { sessionStorage.setItem('tg', JSON.stringify(active)); } catch {}
+  }
+  toggles.forEach((t) => t.addEventListener('click', () => {
+    t.setAttribute('aria-pressed', t.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    applyFilters();
+  }));
+  resetBtn.addEventListener('click', () => { toggles.forEach((t) => t.setAttribute('aria-pressed', 'false')); applyFilters(); });
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('tg') || '{}');
+    toggles.forEach((t) => { if (saved[t.dataset.group!]?.includes(t.dataset.value)) t.setAttribute('aria-pressed', 'true'); });
+  } catch {}
+  applyFilters();
+
+  // ── картка в попапі
+  const sheet = document.getElementById('sheet') as HTMLDialogElement;
+  const body = document.getElementById('sheetBody')!;
+  const scroller = document.getElementById('sheetScroll')!;
+  const tally = document.getElementById('tally')!;
+  const prevBtn = sheet.querySelector<HTMLButtonElement>('[data-prev]')!;
+  const nextBtn = sheet.querySelector<HTMLButtonElement>('[data-next]')!;
+  const pool = document.getElementById('pool')!;
+  const nameOf = (id: string) => cards.find((c) => c.dataset.id === id)?.querySelector('.nm')?.textContent || '';
+  const visibleIds = () => cards.filter((c) => !c.hidden).map((c) => c.dataset.id!);
+  let cur: string | null = null;
+  let opener: HTMLElement | null = null;
+
+  function show(id: string) {
+    const art = pool.querySelector(`[data-article="${id}"]`);
+    if (!art) return;
+    cur = id;
+    body.replaceChildren(art.cloneNode(true));
+    body.querySelectorAll('img').forEach((img) => img.setAttribute('loading', 'eager'));
+    const ids = visibleIds().includes(id) ? visibleIds() : cards.map((c) => c.dataset.id!);
+    const i = ids.indexOf(id);
+    const p = ids[i - 1], n = ids[i + 1];
+    prevBtn.disabled = !p; nextBtn.disabled = !n;
+    prevBtn.querySelector('.pg-t')!.textContent = p ? nameOf(p) : '';
+    nextBtn.querySelector('.pg-t')!.textContent = n ? nameOf(n) : '';
+    prevBtn.dataset.to = p || ''; nextBtn.dataset.to = n || '';
+    tally.textContent = `${String(i + 1).padStart(2, '0')}/${String(ids.length).padStart(2, '0')}`;
+    scroller.scrollTop = 0;
+    if (!sheet.open) { sheet.showModal(); document.documentElement.style.overflow = 'hidden'; }
+  }
+  function close(fromHistory = false) {
+    if (!sheet.open) return;
+    sheet.close();
+  }
+  sheet.addEventListener('close', () => {
+    document.documentElement.style.overflow = '';
+    cur = null;
+    if (location.hash) history.pushState(null, '', location.pathname + location.search);
+    opener?.focus();
+  });
+  function go(id: string, push = true) {
+    if (push) history[cur ? 'replaceState' : 'pushState'](null, '', `#${id}`);
+    show(id);
+  }
+
+  cards.forEach((c) => c.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    opener = c;
+    go(c.dataset.id!);
+  }));
+  prevBtn.addEventListener('click', () => prevBtn.dataset.to && go(prevBtn.dataset.to));
+  nextBtn.addEventListener('click', () => nextBtn.dataset.to && go(nextBtn.dataset.to));
+  sheet.querySelector('[data-close]')!.addEventListener('click', () => close());
+  sheet.addEventListener('click', (e) => { if (e.target === sheet) close(); });
+  sheet.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' && prevBtn.dataset.to) go(prevBtn.dataset.to);
+    if (e.key === 'ArrowRight' && nextBtn.dataset.to) go(nextBtn.dataset.to);
+  });
+  window.addEventListener('popstate', () => {
+    const id = location.hash.slice(1);
+    if (id && pool.querySelector(`[data-article="${id}"]`)) show(id); else close();
+  });
+  // свайп донизу закриває, коли картка догорнута доверху
+  let y0: number | null = null;
+  scroller.addEventListener('touchstart', (e) => { y0 = scroller.scrollTop <= 0 ? e.touches[0].clientY : null; }, { passive: true });
+  scroller.addEventListener('touchmove', (e) => {
+    if (y0 === null) return;
+    if (scroller.scrollTop > 0) { y0 = null; return; }
+    if (e.touches[0].clientY - y0 > 90) { y0 = null; close(); }
+  }, { passive: true });
+
+  const start = location.hash.slice(1);
+  if (start && pool.querySelector(`[data-article="${start}"]`)) show(start);
+</script>
